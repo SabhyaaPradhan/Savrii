@@ -1,7 +1,5 @@
 # Savrii - AI Client Communication Platform
 
-[![Deploy on Replit](https://replit.com/badge/github/Sabhyaa-Pradhan/Savrii)](https://replit.com/@Sabhyaa-Pradhan/Savrii)
-
 ## Overview
 
 Savrii is a complete, production-ready SaaS web application designed for coaches, consultants, and freelancers to generate AI-powered client responses. The platform features a modern React frontend with dark/light mode theming, Express.js backend with Replit Auth, Supabase database, and advanced GSAP-style animations.
