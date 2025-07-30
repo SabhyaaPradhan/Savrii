@@ -44,13 +44,42 @@ import WebhooksZapier from "@/pages/webhooks-zapier";
 import Inbox from "@/pages/inbox";
 
 function Router() {
-  // Simple test to debug
+  // Bypass auth for now to show landing page
+  const isAuthenticated = false;
+  const isLoading = false;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Always show non-authenticated view for now
   return (
-    <div style={{ padding: '20px', fontSize: '24px', color: 'black' }}>
-      <h1>React App is Loading!</h1>
-      <p>If you can see this, React is working.</p>
-      <p>Current URL: {window.location.href}</p>
-      <Landing />
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-1">
+        <Switch>
+          <Route path="/" component={Landing} />
+          <Route path="/pricing" component={Pricing} />
+          <Route path="/auth" component={Auth} />
+          <Route path="/auth-callback" component={AuthCallback} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/about" component={About} />
+          <Route path="/faq" component={FAQ} />
+          <Route component={() => (
+            <div className="min-h-screen flex items-center justify-center">
+              <Landing />
+            </div>
+          )} />
+        </Switch>
+      </main>
+      <Footer />
     </div>
   );
 
