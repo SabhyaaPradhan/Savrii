@@ -42,17 +42,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Ensure root path serves the React app (not README or other files)
+// Override any static file serving for root path to ensure React app loads
 app.get('/', (req, res, next) => {
-  // In production, always serve the React app index.html
-  if (app.get("env") === "production") {
-    const distPath = path.resolve(__dirname, "..", "dist", "public");
-    const indexPath = path.resolve(distPath, "index.html");
-    if (fs.existsSync(indexPath)) {
-      return res.sendFile(indexPath);
-    }
-  }
-  // In development, let Vite handle it
+  // Always prioritize React app over any static files
   next();
 });
 
