@@ -67,8 +67,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Auth routes
   app.get('/api/auth/user', (req: any, res) => {
-    // Quick auth check without database dependency
-    return res.status(401).json({ message: "Unauthorized" });
+    if (!req.isAuthenticated() || !req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    try {
+      // Return basic user info without database dependency for now
+      res.json({
+        id: req.user.id,
+        email: req.user.email || '',
+        firstName: req.user.firstName || '',
+        lastName: req.user.lastName || ''
+      });
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
   });
 
   // Plan management
