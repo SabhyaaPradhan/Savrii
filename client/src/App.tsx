@@ -44,10 +44,9 @@ import WebhooksZapier from "@/pages/webhooks-zapier";
 import Inbox from "@/pages/inbox";
 
 function Router() {
-  // Bypass auth for now to show landing page
-  const isAuthenticated = false;
-  const isLoading = false;
+  const { isAuthenticated, isLoading } = useAuth();
 
+  // Show loading state while checking authentication
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -59,29 +58,76 @@ function Router() {
     );
   }
 
-  // Always show non-authenticated view for now
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <main className="flex-1">
-        <Switch>
-          <Route path="/" component={Landing} />
-          <Route path="/pricing" component={Pricing} />
-          <Route path="/auth" component={Auth} />
-          <Route path="/auth-callback" component={AuthCallback} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/about" component={About} />
-          <Route path="/faq" component={FAQ} />
-          <Route component={() => (
-            <div className="min-h-screen flex items-center justify-center">
-              <Landing />
-            </div>
-          )} />
-        </Switch>
-      </main>
-      <Footer />
-    </div>
-  );
+  // Show non-authenticated routes when not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1">
+          <Switch>
+            <Route path="/" component={Landing} />
+            <Route path="/pricing" component={Pricing} />
+            <Route path="/auth" component={Auth} />
+            <Route path="/auth-callback" component={AuthCallback} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/about" component={About} />
+            <Route path="/faq" component={FAQ} />
+            {/* Protected routes - redirect to auth with return URL */}
+            <Route path="/dashboard" component={() => {
+              window.location.href = '/auth?returnTo=%2Fdashboard';
+              return null;
+            }} />
+            <Route path="/templates" component={() => {
+              window.location.href = '/auth?returnTo=%2Ftemplates';
+              return null;
+            }} />
+            <Route path="/prompt-builder" component={() => {
+              window.location.href = '/auth?returnTo=%2Fprompt-builder';
+              return null;
+            }} />
+            <Route path="/analytics" component={() => {
+              window.location.href = '/auth?returnTo=%2Fanalytics';
+              return null;
+            }} />
+            <Route path="/chat" component={() => {
+              window.location.href = '/auth?returnTo=%2Fchat';
+              return null;
+            }} />
+            <Route path="/integrations" component={() => {
+              window.location.href = '/auth?returnTo=%2Fintegrations';
+              return null;
+            }} />
+            <Route path="/custom-prompts" component={() => {
+              window.location.href = '/auth?returnTo=%2Fcustom-prompts';
+              return null;
+            }} />
+            <Route path="/brand-voice" component={() => {
+              window.location.href = '/auth?returnTo=%2Fbrand-voice';
+              return null;
+            }} />
+            <Route path="/support" component={() => {
+              window.location.href = '/auth?returnTo=%2Fsupport';
+              return null;
+            }} />
+            <Route path="/home" component={() => {
+              window.location.href = '/auth?returnTo=%2Fhome';
+              return null;
+            }} />
+            <Route path="/settings" component={() => {
+              window.location.href = '/auth?returnTo=%2Fsettings';
+              return null;
+            }} />
+            {/* Default fallback to home instead of auth */}
+            <Route component={() => {
+              window.location.href = '/';
+              return null;
+            }} />
+          </Switch>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <Switch>
