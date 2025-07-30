@@ -44,7 +44,10 @@ import WebhooksZapier from "@/pages/webhooks-zapier";
 import Inbox from "@/pages/inbox";
 
 function Router() {
-  const { isAuthenticated, isLoading } = useAuth();
+  // Temporarily always show non-authenticated routes to debug
+  // const { isAuthenticated, isLoading } = useAuth();
+  const isAuthenticated = false;
+  const isLoading = false;
 
   // Show loading state while checking authentication
   // Add extra delay to prevent flashing between auth states
