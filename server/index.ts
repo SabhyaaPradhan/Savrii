@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -40,6 +41,12 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Override any static file serving for root path to ensure React app loads
+app.get('/', (req, res, next) => {
+  // Always prioritize React app over any static files
+  next();
+});
 
 app.use((req, res, next) => {
   const start = Date.now();

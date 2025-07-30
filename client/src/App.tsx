@@ -47,7 +47,6 @@ function Router() {
   const { isAuthenticated, isLoading } = useAuth();
 
   // Show loading state while checking authentication
-  // Add extra delay to prevent flashing between auth states
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">

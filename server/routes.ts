@@ -67,28 +67,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Auth routes
   app.get('/api/auth/user', (req: any, res) => {
-    console.log("Auth check - Session ID:", req.sessionID);
-    console.log("Auth check - User:", req.user);
-    console.log("Auth check - Authenticated:", req.isAuthenticated());
-    console.log("Auth check - Session:", req.session);
-    
     if (!req.isAuthenticated() || !req.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    
+
     try {
-      // CRITICAL: Always use the authenticated user's ID from session
-      const userId = req.user.id as string;
-      console.log("SECURITY: Fetching data for authenticated user:", userId);
-      
-      storage.getUser(userId).then(user => {
-        if (!user) {
-          return res.status(404).json({ message: "User not found" });
-        }
-        res.json(user);
-      }).catch(error => {
-        console.error("Error fetching user:", error);
-        res.status(500).json({ message: "Failed to fetch user" });
+      // Return basic user info without database dependency for now
+      res.json({
+        id: req.user.id,
+        email: req.user.email || '',
+        firstName: req.user.firstName || '',
+        lastName: req.user.lastName || ''
       });
     } catch (error) {
       console.error("Error fetching user:", error);

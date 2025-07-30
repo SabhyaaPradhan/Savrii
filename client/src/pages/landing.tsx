@@ -140,7 +140,7 @@ const testimonials = [
     name: "Priya Patel",
     role: "Healthcare Administrator",
     company: "WellCare Medical",
-    content: "Patient appointment scheduling and basic health inquiries are handled seamlessly. Our staff can focus on more critical tasks.",
+    content: "<p>Patient appointment scheduling and basic health inquiries are handled seamlessly. Our staff can now focus on more critical tasks.</p>",
     rating: 5
   },
   {
